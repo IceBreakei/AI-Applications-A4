@@ -1,6 +1,6 @@
 body {
     display: flex;
-    gap: 0.lem;
+    gap: 0.1em;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -11,7 +11,8 @@ body {
 main {
     padding: 1em;
     display: grid;
-    place-items: center;
+    width: min(100%, 800px);
+    place-items: stretch;
 }
 
 p {
@@ -20,8 +21,101 @@ p {
 #error {
     color: red;
 }
+
+#storageNotice {
+    color: #8a4700;
+}
+
 button {
     background-color: #cbe9d6;
     color: #333;
-    margin-bottom: lem;
+    margin-bottom: 0;
+}
+
+/* Keep conversation actions together, wrapping on smaller screens. */
+.conversation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+}
+
+.conversation-actions button {
+    flex: 1;
+}
+
+#status,
+#emptyConversation {
+    color: #555;
+}
+
+/* Expand each new entry smoothly so older bubbles move down with it. */
+.message-entry {
+    display: grid;
+    grid-template-rows: 1fr;
+    animation: insert-message 320ms ease-out;
+}
+
+.message-entry-content {
+    min-height: 0;
+    overflow: hidden;
+}
+
+@keyframes insert-message {
+    from {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+
+    to {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+/* Respect the browser's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+    .message-entry {
+        animation: none;
+    }
+}
+
+/* Show the complete transcript with a distinct style for each speaker. */
+.message {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-left: 4px solid #6ca782;
+}
+
+.message-user {
+    background-color: #e8eee9;
+    border-left-color: #64748b;
+}
+
+.message strong {
+    color: #333;
+}
+
+.message p {
+    margin: 0.5em 0 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.message-user p {
+    color: #333;
+}
+
+/* Each model supplies a dark background; white response text stays readable. */
+.message-assistant {
+    background-color: var(--model-background, #25352c);
+}
+
+.message-assistant strong,
+.message-assistant p {
+    color: #fff;
+}
+
+footer {
+    width: min(100%, 800px);
+    padding: 0 1em;
 }

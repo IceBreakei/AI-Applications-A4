@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ollama Conversation</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
 <body>
     <header>
-        <img src="https://ollama.com/public/ollama.png" width="50">
+        <img src="https://ollama.com/public/ollama.png" width="50" alt="Ollama">
     </header>
     <main>
+        <!-- Choose a model and submit a question or a follow-up. -->
         <form id="promptForm">
-            <select id="model">
-
+            <label for="model">Model</label>
+            <select id="model" disabled>
+                <option disabled>Loading models...</option>
             </select>
+            <label for="prompt">Your question</label>
             <input type="text" id="prompt" placeholder="Ask Any Question" required>
-            <div>
-                <button type="submit">Submit</button>
+            <div class="conversation-actions">
+                <button type="submit" id="submitPrompt" disabled>Submit</button>
+                <button type="button" id="stopReply" class="secondary" hidden>Stop Reply</button>
+                <button type="button" id="clearConversation" class="secondary">Clear Conversation</button>
             </div>
+            <p id="status" role="status"></p>
+            <p id="storageNotice" role="status"></p>
         </form>
-        <p id="awnser"></p>
+
+        <!-- Newest messages appear at the top; replies update as Ollama generates them. -->
+        <section class="conversation-section" aria-labelledby="conversationHeading">
+            <h2 id="conversationHeading">Conversation history</h2>
+            <p id="emptyConversation">No messages yet. Ask a question to start a conversation.</p>
+            <div id="conversation" role="log" aria-live="polite" aria-relevant="additions text" aria-busy="false"></div>
+        </section>
     </main>
     <footer>
-        <p id="error"></p>
+        <p id="error" role="alert"></p>
     </footer>
 </body>
 </html>
